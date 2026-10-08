@@ -1,6 +1,5 @@
 package com.ai.engineer.practice.ai;
 
-import com.openai.models.ChatModel;
 import org.springframework.ai.chat.client.ChatClient;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -8,7 +7,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 
 @RestController
-public class DevsAiGeneralSupportController {
+public class I_DevsAiGeneralSupportController {
 
     private static final String SYSTEM_PROMPT = """
             You give suggestion for names.
@@ -19,7 +18,7 @@ public class DevsAiGeneralSupportController {
 
     private final ChatClient chatClient;
 
-    public DevsAiGeneralSupportController(ChatClient.Builder builder){
+    public I_DevsAiGeneralSupportController(ChatClient.Builder builder){
         this.chatClient = builder.build();
     }
 
