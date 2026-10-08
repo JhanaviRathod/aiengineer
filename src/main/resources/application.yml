@@ -1,0 +1,14 @@
+spring:
+  application:
+    name: practice
+  ai:
+    retry:
+      max-attempts: 1
+    openai:
+      base-url: https://devs.ai/api/v1
+      api-key:
+      timeout: 180s
+      chat:
+        options:
+          model: gemini-3.5-flash-lite
+          temperature: 2
