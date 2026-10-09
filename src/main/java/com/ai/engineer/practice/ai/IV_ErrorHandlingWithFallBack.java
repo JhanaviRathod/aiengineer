@@ -6,10 +6,10 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 @Controller
-public class III_ErrorHandlingWithFallBack {
+public class IV_ErrorHandlingWithFallBack {
     private final FallBackMechanism callLlm;
 
-    public III_ErrorHandlingWithFallBack(FallBackMechanism callLlm) {
+    public IV_ErrorHandlingWithFallBack(FallBackMechanism callLlm) {
         this.callLlm = callLlm;
     }
 
