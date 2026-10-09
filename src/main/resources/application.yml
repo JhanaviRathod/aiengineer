@@ -1,7 +1,18 @@
 spring:
   application:
     name: practice
-#  ai:
+  ai:
+    chat:
+      client:
+        enabled: false
+    model:
+      chat: none
+      audio:
+        speech: none
+        transcription: none
+      embedding: none
+      image: none
+      moderation: none
 #    retry:
 #      max-attempts: 3 #The Spring AI retry policy allows up to three total attempts, depending on the applicable retry rules.
 #      backoff:

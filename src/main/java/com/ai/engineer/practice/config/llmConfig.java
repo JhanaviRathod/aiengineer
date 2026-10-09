@@ -13,26 +13,44 @@ import org.springframework.context.annotation.Primary;
 @Configuration
 public class llmConfig {
 
-    @Bean
+    @Bean("chatClient")
     @Primary
-    public ChatClient chatClient(@Qualifier("chatClient") @Value("${app.ai.models.primary.base-url}") String url,
-                                 @Value("${app.ai.models.primary.api-key}") String key,
-                                 @Value("${app.ai.models.primary.model}") String model,
-                                 ChatClient.Builder builder){
-        return builder.defaultOptions(OpenAiChatOptions.builder().apiKey(key)
-                .baseUrl(url)
-                .model(model)
-                .maxRetries(2)).build();
+    public ChatClient chatClient(@Qualifier("primaryChatModel") OpenAiChatModel model){
+        return ChatClient.builder(model).build();
     }
 
-    @Bean
-    public ChatClient secondarChatClient(@Qualifier("secondaryChatClient") @Value("${app.ai.models.secondary.base-url}") String url,
-                                  @Value("${app.ai.models.secondary.api-key}") String key,
-                                  @Value("${app.ai.models.secondary.model}") String model,
-                                  ChatClient.Builder builder){
-        return builder.defaultOptions(OpenAiChatOptions.builder().apiKey(key)
-                .baseUrl(url)
-                .model(model)
-                .maxRetries(1)).build();
+    @Bean("primaryChatModel")
+    public OpenAiChatModel primaryChatModel(@Value("${app.ai.models.primary.base-url}") String url,
+                                            @Value("${app.ai.models.primary.api-key}") String key,
+                                            @Value("${app.ai.models.primary.model}") String model){
+        return OpenAiChatModel.builder()
+                .options(OpenAiChatOptions.builder()
+                        .apiKey(key)
+                        .baseUrl(url)
+                        .model(model)
+                        .maxRetries(2)
+                        .build()).build();
+    }
+
+    @Bean("secondaryChatClient")
+    public ChatClient secondaryChatClient(
+            @Qualifier("secondaryChatModel") OpenAiChatModel model) {
+        return ChatClient.builder(model).build();
+    }
+
+    @Bean("secondaryChatModel")
+    public OpenAiChatModel secondaryChatModel(
+            @Value("${app.ai.models.secondary.base-url}") String url,
+            @Value("${app.ai.models.secondary.api-key}") String key,
+            @Value("${app.ai.models.secondary.model}") String model) {
+
+        return OpenAiChatModel.builder()
+                .options(OpenAiChatOptions.builder()
+                        .apiKey(key)
+                        .baseUrl(url)
+                        .model(model)
+                        .maxRetries(1)
+                        .build())
+                .build();
     }
 }

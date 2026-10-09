@@ -1,6 +1,7 @@
 package com.ai.engineer.practice.ai;
 
 import org.springframework.ai.chat.client.ChatClient;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -11,8 +12,8 @@ public class III_StreamResponseController {
 
     private final ChatClient chatClient;
 
-    public III_StreamResponseController(ChatClient.Builder builder) {
-        this.chatClient = builder.build();
+    public III_StreamResponseController(@Qualifier("chatClient")  ChatClient chatClient) {
+        this.chatClient = chatClient;
     }
 
 //     http --stream GET ":8080/api/getStreamResponse?question=Tell%20me%20a%20story"

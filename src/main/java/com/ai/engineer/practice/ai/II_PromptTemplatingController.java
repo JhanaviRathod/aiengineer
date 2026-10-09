@@ -7,6 +7,7 @@ import org.springframework.ai.chat.prompt.Prompt;
 import org.springframework.ai.chat.prompt.PromptTemplate;
 import org.springframework.ai.chat.prompt.SystemPromptTemplate;
 import org.springframework.ai.template.st.StTemplateRenderer;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -20,7 +21,7 @@ public class II_PromptTemplatingController {
     private final ChatModel chatModel;
 
 
-    public II_PromptTemplatingController(ChatModel chatModel){
+    public II_PromptTemplatingController(@Qualifier("primaryChatModel") ChatModel chatModel){
         this.chatModel = chatModel;
     }
 

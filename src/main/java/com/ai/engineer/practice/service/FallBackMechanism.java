@@ -19,7 +19,7 @@ public class FallBackMechanism {
             @Qualifier("secondaryChatClient") ChatClient secondaryChatClient
     ){
         this.chatClient = chatClient;
-        this.secondaryChatClient = chatClient;
+        this.secondaryChatClient = secondaryChatClient;
     }
 
     public String askWithFallback(String prompt) {
