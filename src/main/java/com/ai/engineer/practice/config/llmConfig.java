@@ -53,4 +53,24 @@ public class llmConfig {
                         .build())
                 .build();
     }
+
+    private static final String SYSTEM_PROMPT = """
+            You are a friendly chat bot that answers question in the voice of a Pirate.
+            """ ;
+
+    @Bean("chatClientWithDefaultSystemMessage")
+    public ChatClient chatClientWithDefaultSystemMessage(@Qualifier("primaryChatModel") OpenAiChatModel model){
+        return ChatClient.builder(model).defaultSystem(s -> s.text(SYSTEM_PROMPT)
+                .metadata("assistantType", "general")
+                .metadata("version", "1.0"))
+        .build();
+    }
+
+    @Bean("chatClientWithDefaultSystemMessageWithParameters")
+    public ChatClient chatClientWithDefaultSystemMessageWithParameters(@Qualifier("primaryChatModel") OpenAiChatModel model){
+        String SYSTEM_PROMPT_WITH_PARAMETERS = "You are a friendly chat bot that answers question in the voice of a {voice}";
+        return ChatClient.builder(model).defaultSystem(s -> s.text(SYSTEM_PROMPT_WITH_PARAMETERS)
+                .metadata("assistantType", "general")
+                .metadata("version", "2.0")).build();
+    }
 }
