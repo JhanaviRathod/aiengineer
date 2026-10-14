@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 public class I_ZeroShotPrompting {
 
-    public final ChatClient chatClient;
+    private final ChatClient chatClient;
 
     public I_ZeroShotPrompting(ChatClient chatClient) {
         this.chatClient = chatClient;
