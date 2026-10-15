@@ -1,6 +1,7 @@
 package com.ai.engineer.practice.prompt.engineering;
 
 import org.springframework.ai.chat.client.ChatClient;
+import org.springframework.ai.openai.OpenAiChatOptions;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -43,9 +44,23 @@ public class VI_SelfConsistencyPrompting {
 
         // Run the model for 5 times
         for (int i = 0; i < 5; i++) {
+            EmailClassification output = chatClient.prompt()
+                    .options(OpenAiChatOptions.builder()
+                            .temperature(1.0))
+                    .user(u -> u.text("""
+                            Email: {email}
+                            Classify the above email as IMPORTANT or NOT IMPORTANT. Let's
+                            think step by step and explain why.
+                            """).param("email", email))
+                    .call()
+                    .entity(EmailClassification.class);
 
-
+            if(output.classification() == EmailClassification.Classification.NOT_IMPORTANT){
+                nonImportantCount++;
+            } else if(output.classification() == EmailClassification.Classification.IMPORTANT){
+                importantCount++;
+            }
         }
-        return null;
+        return importantCount > nonImportantCount ? "IMPORTANT" : "NOT IMPORTANT";
     }
 }
