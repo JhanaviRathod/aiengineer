@@ -30,8 +30,8 @@ public class I_DevsAiGeneralSupportController {
     }
 
     // Added error handling and returning safe error message
-    @GetMapping("/api/ask")
-    public ResponseEntity<String> askAi(@RequestParam String question){
+    @GetMapping("/api/askFiveNames")
+    public ResponseEntity<String> askAiFiveNames(@RequestParam String question){
         try{
             String prompt = question;
 
@@ -48,5 +48,22 @@ public class I_DevsAiGeneralSupportController {
                     .body("The AI service is temporarily unavailable.");
         }
     }
+
+    @GetMapping("/api/ask")
+    public ResponseEntity<String> askAi(@RequestParam String prompt){
+        try{
+            String response =  chatClient.prompt()
+                    .user(prompt)
+                    .call()
+                    .content();
+
+            return ResponseEntity.ok(response);
+        } catch (Exception e) {
+            log.error(e.getMessage());
+            return ResponseEntity.status(HttpStatus.BAD_GATEWAY)
+                    .body("The AI service is temporarily unavailable.");
+        }
+    }
+
 
 }
