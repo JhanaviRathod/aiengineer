@@ -1,5 +1,6 @@
 package com.ai.engineer.practice.ai;
 
+import org.springframework.ai.chat.client.ChatClient;
 import org.springframework.ai.chat.model.ChatModel;
 import org.springframework.ai.chat.prompt.Prompt;
 import org.springframework.ai.chat.prompt.PromptTemplate;
@@ -14,18 +15,20 @@ import java.util.Map;
 public class VII_StructuredOutput {
 
     private final ChatModel chatModel;
+    private final ChatClient chatClient;
 
-    public VII_StructuredOutput(@Qualifier("primaryChatModel") ChatModel chatModel) {
+    public VII_StructuredOutput(@Qualifier("primaryChatModel") ChatModel chatModel, ChatClient chatClient) {
         this.chatModel = chatModel;
+        this.chatClient = chatClient;
     }
 
-    public record CodeReviewResponse(String summary,
+    record CodeReviewResponse(String summary,
                                      int qualityScore,
                                      List<String> detectedIssues,
                                      List<String> suggestedFix){}
 
-    @PostMapping("/api/structuredOutput")
-    public CodeReviewResponse structuredOutput(@RequestBody String code){
+    @PostMapping("/api/beanOutputConverter")
+    public CodeReviewResponse beanOutputConverter(@RequestBody String code){
 
         BeanOutputConverter<CodeReviewResponse> converter =new BeanOutputConverter<>(CodeReviewResponse.class);
 
@@ -48,5 +51,14 @@ public class VII_StructuredOutput {
                 .getText();
 
         return converter.convert(response);
+    }
+
+    record ActorsFilm(String actor, List<String> movies){}
+
+    @GetMapping("/api/structuredOutput")
+    public ActorsFilm structuredOutput(@RequestParam String actor){
+        return chatClient.prompt()
+                .user(s -> s.text("Generate the filmography for {actor}").param("actor", actor))
+                .call().entity(ActorsFilm.class, spec -> spec.validateSchema());
     }
 }
