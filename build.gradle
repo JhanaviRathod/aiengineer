@@ -27,6 +27,7 @@ dependencies {
 	implementation 'org.springframework.ai:spring-ai-starter-model-openai'
 	implementation 'org.springframework.ai:spring-ai-starter-model-transformers'
 	implementation 'jakarta.validation:jakarta.validation-api'
+	implementation 'org.springframework.ai:spring-ai-pdf-document-reader'
 	testImplementation 'org.springframework.boot:spring-boot-starter-webmvc-test'
 	testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
 }
